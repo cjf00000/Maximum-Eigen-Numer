@@ -6,3 +6,11 @@
 /MeshOptimizing/Backup/*
 /MeshOptimizing/Debug/*
 /MeshOptimizing/Release/*
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex
+*.tex.bak
+*/Debug/*
+*/*.xlsx

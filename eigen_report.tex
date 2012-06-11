@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\title{矩阵特征值问题\\实习报告}
+\author{计算机科学与技术系\ 计03班\\陈键飞\\2010011291}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+
+\begin{document}
+\maketitle
+
+\section{实习要求}
+使用幂法求出下列矩阵按模最大的特征值$\lambda_1$及其对应的特征向量$x_1$，使得
+\begin{displaymath}
+|(\lambda_1)_{k+1}-(\lambda_1)_k| < 10^{-5}
+\end{displaymath}
+
+\begin{enumerate}
+    \item   \begin{displaymath}
+                A = \begin{bmatrix}
+                    5 & -4 & 1\\
+                    -4 & 6 & -4 \\
+                    1 & -4 & 7
+                \end{bmatrix}    
+            \end{displaymath}
+    \item   \begin{displaymath}
+                B = \begin{bmatrix}
+                    25 & -41 & 10 & -6 \\
+                    -41 & 68 & -17 & 10\\
+                    10 & -17 & 5 & -3\\
+                    -6 & 10 & -3 & 2
+                \end{bmatrix}
+            \end{displaymath}
+\end{enumerate}
+
+\section{算法描述}
+
+使用规格化过的幂法。
+初始向量$v_0 = u_0 = (1, 1, 1)^T$。
+递推公式
+\begin{align}
+    \begin{cases}
+        v_{k+1} = Av_k\\
+        u_{k+1} = \frac{v_{k+1}}{(v_{k+1})}
+    \end{cases}
+\end{align}
+设矩阵$A$的$n$个特征值分别为$\lambda_1>\lambda_2>\dots>\lambda_n$，则
+算法的余项以$\frac{\lambda_2}{\lambda_1}$的速度指数衰减，并且
+\begin{align}
+    \begin{cases}
+        (v_k) \to \lambda_1 (k\to \infty)\\
+        e_k \sim O(\frac{\lambda_2}{\lambda_1})^k
+    \end{cases}
+\end{align}
+如果使用Rayleigh商加速，则
+\begin{align}
+    \begin{cases}
+        \frac{(Au_k, u_k)}{(u_k, u_k)} \to \lambda_1 (k \to \infty)\\
+        e_k \sim O(\frac{\lambda_2}{\lambda_1})^{2k}
+    \end{cases}
+\end{align}
+
+\section{实验结果}
+
+矩阵A与矩阵B的实验结果分别如表~\ref{resultA}、表~ref{resultB}。使用Rayleigh商加速后，矩阵$A$和$B$的迭代次数分别由24次、4次降低到了16次、2次。
+可见Rayleigh商的确可以加快特征值的收敛速度。
+最终求得
+\begin{align}
+    \lambda_{A1} = 11.26853\\
+    \lambda_{B1} = 98.52170
+\end{align}
+
+\begin{table}[htbp]
+  \centering\caption{\label{resultA}矩阵$A$的幂法迭代过程}
+  \begin{tabular}{cc|cc}
+  \toprule
+     \multicolumn{2}{c|}{一般}  & \multicolumn{2}{c}{使用Rayleigh加速} \\
+     迭代次数 & 特征值 & 迭代次数 & 特征值 \\
+  \midrule
+    1&8.000000&1&-3.714286\\
+    2&6.500000&2&-2.164384\\
+    3&5.692308&3&2.177862\\
+    4&8.972973&4&6.846065\\
+    5&11.722892&5&9.594150\\
+    6&10.041110&6&10.707290\\
+    7&11.585261&7&11.088753\\
+    8&10.893240&8&11.211807\\
+    9&11.304802&9&11.250721\\
+    10&11.215859&10&11.262949\\
+    11&11.257753&11&11.266783\\
+    12&11.274499&12&11.267985\\
+    13&11.265176&13&11.268362\\
+    14&11.270408&14&11.268480\\
+    15&11.267483&15&11.268517\\
+    16&11.269121&16&11.268528\\
+    17&11.268204&&\\
+    18&11.268718&&\\
+    19&11.268430&&\\
+    20&11.268591&&\\
+    21&11.268501&&\\
+    22&11.268552&&\\
+    23&11.268523&&\\
+    24&11.268539&&\\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering\caption{\label{resultA}矩阵$B$的幂法迭代过程}
+  \begin{tabular}{cc|cc}
+  \toprule
+     \multicolumn{2}{c|}{一般}  & \multicolumn{2}{c}{使用Rayleigh加速} \\
+     迭代次数 & 特征值 & 迭代次数 & 特征值 \\
+  \midrule
+    1&20.000000&1&98.520761\\
+    2&98.350000&2&98.521698\\
+    3&98.521607&&\\
+    4&98.521699&&\\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+\end{document} 
